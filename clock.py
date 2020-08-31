@@ -32,7 +32,17 @@ class Clock():
         GPIO.setup(13, GPIO.OUT)
         GPIO.setup(15, GPIO.OUT)
         GPIO.setup(19, GPIO.OUT)
-
+        
+    def music_tts(self, index):
+        nome = self.nomes[index]
+        tipo = self.tipos[index]
+        tts = gTTS(nome, lang="pt-br")
+        tts.save("/home/pi/CLOCK/Musics/tts.mp3")
+        self.luzes_led(tipo)
+        args = ["omxplayer", "/home/pi/CLOCK/Musics/tts.mp3"]
+        Popen(args)
+        sleep(10)
+        
     def get_current_time(self):
         self.time_check = datetime.now()
         hour = self.time_check.strftime("%H:%M:%S")
@@ -44,26 +54,12 @@ class Clock():
     def despertador(self):
         if self.current_time in self.despertar:
             index = self.despertar.index(self.current_time)
-            nome = self.nomes[index]
-            tipo = self.tipos[index]
-            tts = gTTS(nome, lang="pt-br")
-            tts.save("/home/pi/CLOCK/Musics/tts.mp3")
-            self.luzes_led(tipo)
-            args = ["omxplayer", "/home/pi/CLOCK/Musics/tts.mp3"]
-            Popen(args)
-            sleep(10)
+            self.music_tts(index)
             self.luzes_led(tipo)
             return "DESPERTADO"
         if self.weekly in self.despertar_s:
             index = self.despertar_s.index(self.weekly)
-            nome = self.nomes[index]
-            tipo = self.tipos[index]
-            tts = gTTS(nome, lang="pt-br")
-            tts.save("/home/pi/CLOCK/Musics/tts.mp3")
-            self.luzes_led(tipo)
-            args = ["omxplayer", "/home/pi/CLOCK/Musics/tts.mp3"]
-            Popen(args)
-            sleep(10)
+            self.music_tts(index)
             self.luzes_led(tipo)
             return "DESPERTADO"
         else:
@@ -133,3 +129,4 @@ if __name__ == '__main__':
             continue
         else:
             continue       
+
