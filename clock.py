@@ -56,17 +56,13 @@ class Clock():
             tipo = self.tipos[index]
             self.tts_music(nome, tipo)
             self.luzes_led(tipo)
-            return "DESPERTADO"
         if self.weekly in self.despertar_s:
             index = self.despertar_s.index(self.weekly)
             nome = self.nomes[index]
             tipo = self.tipos[index]
             self.tts_music(nome, tipo)
             self.luzes_led(tipo)
-            return "DESPERTADO"
-        else:
-            return "DESLIGADO"
-    
+
     def verde_on(self):
         GPIO.output(11, GPIO.HIGH)
         
@@ -126,8 +122,5 @@ if __name__ == '__main__':
         df = pd.read_csv('/home/pi/CLOCK/leitura.txt', sep=",")
         clock = Clock(df)
         clock.get_current_time()
-        state = clock.despertador()
-        if state == "DESLIGADO":
-            continue
-        else:
-            continue       
+        clock.despertador()
+ 
